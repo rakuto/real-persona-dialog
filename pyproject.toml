@@ -1,0 +1,49 @@
+[project]
+name = "real-persona-dialogue"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "click>=8.2.0",
+    "natsort>=8.4.0",
+    "pydantic>=2.11.4",
+    "torchaudio>=2.7.0",
+    "zonos",
+]
+
+[project.optional-dependencies]
+extra = [
+    "google-genai>=1.15.0",
+]
+
+[tool.ruff]
+exclude = [
+    ".git",
+    ".vscode",
+    ".venv",
+    "build",
+    "dist",
+    "venv",
+    "site-packages",
+    "*.pyi",
+]
+line-length = 120
+indent-width = 4
+target-version = "py312"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+# https://docs.astral.sh/ruff/rules/#flake8-builtins-a
+[tool.ruff.lint]
+select = ["E", "F", "UP", "B", "SIM", "I"]
+ignore = ["SIM117"]
+fixable = ["ALL"]
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.uv.sources]
+zonos = { git = "https://github.com/cv-olvera/Zonos.git", rev = "main" }

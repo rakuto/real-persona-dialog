@@ -1,0 +1,31 @@
+resources:
+  cloud: lambda
+  accelerators: H100:1
+  instance_type: gpu_1x_h100_pcie
+
+workdir: .
+
+envs:
+  ZONOS_MODEL_NAME: Zyphra/Zonos-v0.1-transformer
+
+setup: |
+  set -ex
+  
+  sudo apt-get update
+  sudo apt-get install -y espeak-ng git
+  
+  pip install -U uv 
+  uv venv
+  uv sync
+
+  git clone --depth 1 https://github.com/nu-dialogue/real-persona-chat.git
+
+run: |
+  set -ex
+  
+  uv run huggingface-cli download ${ZONOS_MODEL_NAME}
+  uv run python -m real_persona_dialogue \
+    --tts-model ${ZONOS_MODEL_NAME} \
+    --speakers speakers/zonos \
+    --dialogues ./real-persona-chat/real_persona_chat/dialogues/ \
+    --output outputs 
